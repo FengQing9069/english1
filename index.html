@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>考研英语一语料库</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg:#f5f5ee; --paper:#fffefa; --ink:#24352c; --muted:#56665b;
+  --line:#dce2d8; --green:#27563f; --sage:#e6efe5; --soft:#f4f6ef;
+  font:15px/1.55 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); }
+button,input,select,textarea { font:inherit; color:inherit; }
+button,select { cursor:pointer; }
+button,input,select,textarea { border:1px solid var(--line); border-radius:9px; background:var(--paper); }
+button { min-height:40px; padding:7px 13px; }
+button:hover { background:var(--soft); border-color:#9baa9c; }
+button:disabled { opacity:.55; cursor:default; }
+:focus-visible { outline:2px solid #407b5a; outline-offset:3px; }
+input,select,textarea { min-height:42px; min-width:0; padding:8px 11px; width:100%; }
+textarea { resize:vertical; }
+h1,h2,h3,p { margin:0; }
+[hidden] { display:none!important; }
+.wrap { max-width:1220px; margin:auto; padding-inline:32px; }
+.top { background:var(--paper); border-bottom:1px solid var(--line); }
+.bar,.hero,.list-head,.card-top,.card-foot,.actions,.dialog-head {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.bar { min-height:69px; padding-block:10px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; }
+.logo {
+  display:grid; place-items:center; width:37px; height:37px; border-radius:10px;
+  background:var(--green); color:white; font:700 19px Georgia,serif;
+}
+.actions { justify-content:flex-end; flex-wrap:wrap; }
+.primary { background:var(--green); color:white; border-color:var(--green); font-weight:650; }
+.primary:hover { background:#1c4531; border-color:#1c4531; }
+.quiet { background:transparent; }
+.hero {
+  margin:28px 0 24px; padding:27px 30px; border:1px solid #d6e1d2; border-radius:17px;
+  background:linear-gradient(105deg,#e4ede1,#eff2e8);
+}
+.hero h1 { font-size:clamp(25px,4vw,37px); line-height:1.18; letter-spacing:-.035em; }
+.hero p { color:var(--muted); margin-top:9px; }
+.hero button { flex-shrink:0; }
+.layout { display:grid; grid-template-columns:238px minmax(0,1fr); align-items:start; gap:23px; }
+.panel,.card { border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+.panel { padding:17px; margin-bottom:13px; }
+.panel h2,.list-head h2 { font-size:16px; }
+.metrics { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
+.metrics strong { display:block; font-size:28px; line-height:1.2; font-variant-numeric:tabular-nums; }
+small,.muted { color:var(--muted); }
+.progress { height:8px; border-radius:12px; background:#e9ede5; overflow:hidden; }
+.progress span { display:block; height:100%; background:#518264; border-radius:inherit; }
+.progress-note { display:block; margin-top:6px; }
+.categories { display:grid; gap:4px; margin-block:9px; }
+.category {
+  display:flex; align-items:center; justify-content:space-between; gap:9px;
+  width:100%; min-height:35px; border-color:transparent; text-align:left; padding:5px 7px;
+}
+.category[aria-pressed="true"] { background:var(--sage); border-color:#cfddce; color:#204d36; font-weight:650; }
+.category span:first-child { overflow-wrap:anywhere; }
+.dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor; margin-right:6px; }
+.fixed { --tint:#e7efe7; --tone:#2c6447; }
+.grammar { --tint:#edeaf4; --tone:#604a7b; }
+.vocab { --tint:#f5eddb; --tone:#765623; }
+.custom { --tint:#e6eef0; --tone:#355f68; }
+.category .dot { color:var(--tone); }
+.tools { display:grid; grid-template-columns:minmax(160px,1fr) 145px 125px; gap:9px; margin-bottom:15px; }
+.list-head { min-height:36px; margin-bottom:8px; }
+.list-head h2 span { font-size:13px; font-weight:400; margin-left:6px; }
+.list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding-bottom:25px; align-items:start; }
+.card { padding:15px 16px; min-width:0; overflow-wrap:anywhere; }
+.card-top,.card-foot { flex-wrap:wrap; gap:6px; }
+.badge,.tag { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; }
+.badge { background:var(--tint); color:var(--tone); font-weight:650; }
+.status { font-size:12px; color:var(--muted); }
+.status.learning { color:#785823; } .status.known { color:#2e6549; }
+.english { font:600 21px/1.32 Georgia,"Noto Serif SC",serif; white-space:pre-wrap; }
+.card .english { margin-top:10px; }
+.meaning,.field { white-space:pre-wrap; }
+.meaning { margin-top:6px; color:#44574a; }
+.frame { margin-top:9px; background:var(--soft); border-radius:8px; padding:7px 9px; font-size:13px; }
+mark { background:#deebd6; color:#234f37; border-radius:3px; padding:0 2px; }
+details { margin-top:9px; }
+summary { cursor:pointer; color:var(--green); font-size:13px; width:fit-content; }
+.field { margin-top:7px; font-size:13px; }
+.field b { display:block; color:var(--muted); }
+.tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
+.tag { background:var(--soft); color:var(--muted); overflow-wrap:anywhere; }
+.card-foot { padding-top:8px; margin-top:9px; border-top:1px solid var(--line); }
+.link { min-height:34px; padding:4px 8px; border-color:transparent; background:transparent; font-size:13px; }
+.danger { color:#903d37; }
+.empty { grid-column:1/-1; text-align:center; padding:36px 14px; color:var(--muted); }
+.notice { padding:9px 12px; border-radius:8px; background:#f7e9d5; margin-bottom:12px; }
+.toast { position:fixed; bottom:18px; inset-inline:12px; width:fit-content; max-width:calc(100% - 24px); margin:auto; z-index:2; color:white; background:#253f32; padding:9px 15px; border-radius:9px; }
+dialog {
+  width:min(590px,calc(100% - 24px)); max-height:90dvh; overflow:auto;
+  color:var(--ink); background:var(--paper); border:1px solid var(--line);
+  border-radius:15px; padding:19px; box-shadow:0 18px 65px #1f332935;
+}
+dialog::backdrop { background:#27372d66; }
+.dialog-head { margin-bottom:13px; }
+.dialog-head h2 { font-size:20px; }
+form,.fields { display:grid; gap:10px; }
+label { display:grid; gap:4px; font-size:14px; font-weight:600; }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+fieldset { margin:0; border:1px solid var(--line); border-radius:9px; padding:5px 8px 8px; }
+legend { font-size:13px; }
+.checks { display:flex; gap:6px 12px; flex-wrap:wrap; }
+.checks label { display:flex; align-items:center; font-weight:400; }
+.checks input { min-height:0; width:auto; accent-color:var(--green); }
+.flash-card {
+  border:1px solid var(--line); border-radius:13px; background:var(--soft);
+  padding:20px 14px; margin:12px 0; text-align:center; overflow-wrap:anywhere;
+}
+.flash-card button { margin-top:12px; }
+.flash-card .meaning { font-size:17px; }
+#dialog-body>.actions { margin-top:12px; }
+@media(max-width:890px) {
+  .wrap { padding-inline:18px; }
+  .layout { grid-template-columns:196px minmax(0,1fr); gap:14px; }
+  .list { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .wrap { padding-inline:12px; }
+  .bar { flex-wrap:wrap; }
+  .bar .actions { gap:5px; }
+  .hero { padding:16px; margin:14px 0 12px; gap:8px; align-items:flex-start; flex-wrap:wrap; }
+  .hero p { margin-top:5px; }
+  .layout { display:block; }
+  .panel { padding:11px 12px; margin-bottom:8px; }
+  .metrics { margin:5px 0 7px; }
+  .metrics strong { display:inline; margin-right:5px; font-size:22px; }
+  .categories { display:flex; flex-wrap:wrap; margin:4px 0; }
+  .category { width:auto; max-width:100%; gap:5px; background:var(--soft); }
+  .tools { grid-template-columns:1fr 1fr; margin-top:12px; }
+  .tools input { grid-column:1/-1; }
+  input,select,textarea { font-size:16px; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <div class="brand"><span class="logo" aria-hidden="true">Aa</span>2027 考研 · 英语一</div>
+    <div class="actions">
+      <button class="quiet" id="import">导入 JSON</button>
+      <button class="quiet" id="export">导出 JSON</button>
+      <button class="primary" id="add">＋ 录入语料</button>
+    </div>
+    <input id="file" type="file" accept=".json,application/json" hidden>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div><h1>我的语料库</h1><p>积累句式、拆解长难句、复习熟词僻义。</p></div>
+    <button id="review">开始闪卡复习 ↗</button>
+  </section>
+  <p id="storage-note" class="notice" role="alert" hidden></p>
+  <div class="layout">
+    <aside>
+      <section class="panel" aria-labelledby="stats-title">
+        <h2 id="stats-title">学习进度</h2>
+        <div id="stats"></div>
+      </section>
+      <nav class="panel" aria-label="语料分类">
+        <h2>语料分类</h2>
+        <div id="categories" class="categories"></div>
+        <button class="link" id="new-category">＋ 新建分类</button>
+      </nav>
+    </aside>
+    <section aria-labelledby="list-title">
+      <div class="tools">
+        <input type="search" id="search" aria-label="搜索语料" placeholder="搜索英文、释义或标签…">
+        <select id="tag-filter" aria-label="筛选题型或标签"></select>
+        <select id="state-filter" aria-label="筛选掌握状态"></select>
+      </div>
+      <div class="list-head">
+        <h2 id="list-title">语料列表 <span class="muted" id="result-count" aria-live="polite"></span></h2>
+        <button class="link danger" id="clear">清空示例</button>
+      </div>
+      <div id="list" class="list"></div>
+    </section>
+  </div>
+</main>
+<p id="toast" class="toast" role="status" hidden></p>
+<dialog id="dialog" aria-labelledby="dialog-title">
+  <div class="dialog-head">
+    <h2 id="dialog-title"></h2>
+    <button class="link" id="close" aria-label="关闭弹窗">✕</button>
+  </div>
+  <div id="dialog-body"></div>
+</dialog>
+<script>
+"use strict";
+
+const storageKey = "english-i-corpus-v1";
+const types = {
+  fixed:{name:"固定句式", fields:[["text","英文原句"],["meaning","中文释义"],["scene","适用场景"],["frame","可替换框架"]]},
+  grammar:{name:"语法与长难句", fields:[["text","英文原句"],["meaning","中文释义"],["core","句子主干"],["notes","语法拆解／批注"],["year","真题来源年份"]]},
+  vocab:{name:"核心词汇与熟词僻义", fields:[["text","单词／短语"],["meaning","考研高频释义／熟词僻义"],["phon","音标／词性"],["example","真题例句"],["related","同近义词／词根词缀联想"]]},
+  custom:{fields:[["text","语料"],["meaning","释义／答案"],["notes","用法／例句"]]}
+};
+const exams = ["阅读","完形","翻译","小作文","大作文"];
+const states = {new:"未掌握",learning:"复习中",known:"已掌握"};
+const fieldKeys = [...new Set(Object.values(types).flatMap(type => type.fields.map(([key]) => key)))];
+const examples = [
+  ["fixed","learning",["大作文"],["图画描述"],{
+    text:"As is illustrated in the drawing, two students respond to the same setback in strikingly different ways.",
+    meaning:"如图所示，两名学生面对同一次挫折时，采取了截然不同的应对方式。",
+    scene:"大作文 · 开头描述图画，点出人物行为的对比",
+    frame:"As is illustrated in [载体], [人物或事物] [具体动作或状态]."
+  }],
+  ["fixed","known",["小作文"],["道歉信"],{
+    text:"I am writing to offer my sincere apologies for being unable to attend the meeting as scheduled.",
+    meaning:"我写信是为了就无法按原计划出席会议一事致以诚挚的歉意。",
+    scene:"小作文 · 道歉信开头；for 后接名词或动名词",
+    frame:"I am writing to offer my sincere apologies for [名词或动名词短语]."
+  }],
+  ["grammar","new",["阅读","翻译"],["部分倒装"],{
+    text:"Only when the costs of inaction become visible do policymakers begin to reconsider their priorities.",
+    meaning:"只有当不采取行动的代价显现时，政策制定者才开始重新考虑优先事项。",
+    core:"Policymakers begin to reconsider their priorities.",
+    notes:"Only + when 状语从句置于句首，主句部分倒装，助动词 do 提到主语之前。when 从句保持正常语序。"
+  }],
+  ["grammar","learning",["阅读","翻译"],["主语从句","定语从句"],{
+    text:"What makes the policy difficult to assess is that its benefits, which are widely shared, tend to appear long after its costs have been paid.",
+    meaning:"这项政策之所以难以评估，是因为惠及众人的收益往往在成本已经付出很久之后才显现。",
+    core:"What makes the policy difficult to assess（主语从句）+ is + that …（表语从句）",
+    notes:"which are widely shared 是修饰 benefits 的非限制性定语从句。long after 引导时间状语从句，说明收益显现的时间。"
+  }],
+  ["vocab","known",["阅读","大作文"],["熟词僻义"],{
+    text:"address",
+    meaning:"v. 处理，应对（问题）；常见义 n. 地址",
+    phon:"/əˈdres/ · v.",
+    example:"仿真例句：The proposal fails to address the underlying causes of inequality.",
+    related:"address an issue ≈ tackle an issue；underlying causes 根本原因"
+  }],
+  ["vocab","new",["阅读","完形"],["熟词僻义"],{
+    text:"entertain",
+    meaning:"v. 考虑（某种想法或可能性）；常见义 v. 娱乐，招待",
+    phon:"/ˌentəˈteɪn/ · v.",
+    example:"仿真例句：Few researchers were willing to entertain the possibility that the results were coincidental.",
+    related:"entertain an idea ≈ consider an idea；entertain the possibility of …"
+  }]
+];
+
+const $ = id => document.getElementById(id);
+const dialog = $("dialog");
+const body = $("dialog-body");
+const escape = value => String(value ?? "").replace(/[&<>"']/g, ch =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]);
+const option = (value,label) => `<option value="${escape(value)}">${escape(label)}</option>`;
+const clean = value => String(value ?? "").normalize("NFKD").replace(/\p{M}/gu,"").toLowerCase().trim();
+const unique = values => [...new Set(values.map(value => value.trim()).filter(Boolean))];
+const id = () => globalThis.crypto?.randomUUID?.() ?? Date.now() + "-" + Math.random().toString(36).slice(2);
+const builtins = ["fixed","grammar","vocab"].map(key => ({id:key,name:types[key].name}));
+let db = {version:1,categories:[],items:[]};
+let category = "", flash, toastTimer;
+
+function notice(message) {
+  $("storage-note").textContent = message;
+  $("storage-note").hidden = !message;
+}
+
+function toast(message) {
+  const element = $("toast");
+  element.textContent = message;
+  element.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { element.hidden = true; },3000);
+}
+
+function save(next) {
+  db = next;
+  try {
+    localStorage.setItem(storageKey,JSON.stringify(db));
+    notice("");
+    return true;
+  } catch {
+    notice("浏览器未能保存当前数据。请在关闭网页前导出 JSON。");
+    return false;
+  }
+}
+
+function parseBackup(raw) {
+  const data = JSON.parse(raw);
+  const strings = values => Array.isArray(values) && values.every(x => typeof x === "string");
+  const record = x => x !== null && typeof x === "object" && !Array.isArray(x);
+  const fail = () => { throw new Error("备份格式无效"); };
+  if (!record(data) || data.version !== 1 || !Array.isArray(data.categories) || !Array.isArray(data.items)) fail();
+  const names = new Set(builtins.map(x => clean(x.name)));
+  const categoryIds = new Set(builtins.map(x => x.id));
+  const categories = data.categories.map(x => {
+    if (!record(x) || typeof x.id !== "string" || !x.id.startsWith("custom-") ||
+        categoryIds.has(x.id) || typeof x.name !== "string" || !x.name.trim() || names.has(clean(x.name))) fail();
+    categoryIds.add(x.id);
+    names.add(clean(x.name));
+    return {id:x.id,name:x.name.trim()};
+  });
+  const itemIds = new Set();
+  const items = data.items.map(x => {
+    if (!record(x) || typeof x.id !== "string" || !x.id || itemIds.has(x.id) ||
+        !categoryIds.has(x.category) || typeof x.state !== "string" || !Object.hasOwn(states,x.state) ||
+        !strings(x.exams) || !x.exams.every(tag => exams.includes(tag)) || !strings(x.tags) ||
+        !Number.isSafeInteger(x.reviews) || x.reviews < 0 || typeof x.demo !== "boolean" ||
+        !record(x.data) || typeof x.data.text !== "string" || !x.data.text.trim()) fail();
+    itemIds.add(x.id);
+    const data = {};
+    for (const key of fieldKeys) {
+      if (x.data[key] !== undefined && typeof x.data[key] !== "string") fail();
+      if (x.data[key] !== undefined) data[key] = x.data[key];
+    }
+    return {id:x.id,category:x.category,state:x.state,exams:unique(x.exams),
+      tags:unique(x.tags),reviews:x.reviews,demo:x.demo,data};
+  });
+  return {version:1,categories,items};
+}
+
+function schema(key) {
+  return (Object.hasOwn(types,key) ? types[key] : types.custom).fields;
+}
+
+function load() {
+  const seed = {...db,items:examples.map(([category,state,exams,tags,data],index) => ({
+    id:"demo-" + index,category,state,exams,tags,data,demo:true,reviews:0
+  }))};
+  let raw;
+  try { raw = localStorage.getItem(storageKey); }
+  catch {
+    db = seed;
+    notice("当前浏览器无法读取本地数据。请在关闭网页前导出 JSON。");
+    return;
+  }
+  if (raw === null) { save(seed); return; }
+  try { db = parseBackup(raw); }
+  catch { notice("本地数据无法读取。可以导入此前保存的 JSON 备份。"); }
+}
+
+const allCategories = () => [...builtins,...db.categories];
+const categoryName = key => allCategories().find(x => x.id === key)?.name ?? "";
+const tone = key => builtins.some(x => x.id === key) ? key : "custom";
+
+function filtered() {
+  const terms = clean($("search").value).split(/\s+/).filter(Boolean);
+  const tag = $("tag-filter").value;
+  const state = $("state-filter").value;
+  return db.items.filter(item => {
+    if (category && item.category !== category) return false;
+    if (state && item.state !== state) return false;
+    if (tag && !(tag.startsWith("q:") ? item.exams : item.tags).includes(tag.slice(2))) return false;
+    const haystack = clean([categoryName(item.category),states[item.state],
+      ...schema(item.category).map(([key]) => item.data[key]),...item.exams,...item.tags].join("\n"));
+    return terms.every(term => haystack.includes(term));
+  });
+}
+
+function frame(text) {
+  return escape(text).replace(/\[([^\[\]\n]+)\]/g,"<mark>[$1]</mark>");
+}
+
+function card(item) {
+  const data = item.data;
+  const extra = schema(item.category).slice(2).filter(([key]) => key !== "frame" && data[key]);
+  return `<article class="card">
+    <div class="card-top">
+      <span class="badge ${tone(item.category)}">${escape(categoryName(item.category))}</span>
+      <span class="status ${item.state}"><i class="dot"></i>${states[item.state]}</span>
+    </div>
+    <h3 class="english" lang="en">${escape(data.text)}</h3>
+    ${data.meaning ? `<p class="meaning">${escape(data.meaning)}</p>` : ""}
+    ${item.category === "fixed" && data.frame ? `<p class="frame field">${frame(data.frame)}</p>` : ""}
+    ${extra.length ? `<details><summary>展开详情</summary>${extra.map(([key,label]) =>
+      `<p class="field"><b>${label}</b>${escape(data[key])}</p>`).join("")}</details>` : ""}
+    <div class="tags">${[...item.exams,...item.tags].map(tag => `<span class="tag">${escape(tag)}</span>`).join("")}</div>
+    <div class="card-foot">
+      <small>${item.demo ? "原创示例 · " : ""}已复习 ${item.reviews} 次</small>
+      <div>
+        <button class="link" data-edit="${escape(item.id)}">编辑</button>
+        <button class="link danger" data-delete="${escape(item.id)}">删除</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderList() {
+  const items = filtered();
+  $("result-count").textContent = items.length + " 条";
+  $("list").innerHTML = items.map(card).join("") || `<p class="card empty">${db.items.length ?
+    "没有匹配的语料，可以调整搜索或筛选条件。" : "语料库还是空的。点「录入语料」添加第一条。"}</p>`;
+}
+
+function render() {
+  const total = db.items.length;
+  const known = db.items.filter(x => x.state === "known").length;
+  const pct = total ? Math.round(known / total * 100) : 0;
+  $("stats").innerHTML = `<div class="metrics"><div><strong>${total}</strong><small>累计语料</small></div>
+    <div><strong>${known}</strong><small>已掌握</small></div></div>
+    <div class="progress" role="progressbar" aria-label="掌握进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
+    <span style="width:${pct}%"></span></div><small class="progress-note">掌握进度 ${pct}%</small>`;
+  const cats = allCategories();
+  if (category && !cats.some(x => x.id === category)) category = "";
+  $("categories").innerHTML = [{id:"",name:"全部分类"},...cats].map(cat => {
+    const count = cat.id ? db.items.filter(x => x.category === cat.id).length : total;
+    const share = total ? Math.round(count / total * 100) : 0;
+    return `<button class="category ${tone(cat.id)}" data-category="${escape(cat.id)}" aria-pressed="${cat.id === category}">
+      <span>${cat.id ? '<i class="dot"></i>' : ""}${escape(cat.name)}</span>
+      <small>${cat.id ? share + "%" : count + " 条"}</small>
+    </button>`;
+  }).join("");
+  const selected = $("tag-filter").value;
+  const tags = unique(db.items.flatMap(x => x.tags)).sort((a,b) => a.localeCompare(b,"zh-CN"));
+  $("tag-filter").innerHTML = option("","全部题型／标签") +
+    `<optgroup label="题型">${exams.map(x => option("q:"+x,x)).join("")}</optgroup>` +
+    (tags.length ? `<optgroup label="自定义标签">${tags.map(x => option("t:"+x,x)).join("")}</optgroup>` : "");
+  if ([...$("tag-filter").options].some(x => x.value === selected)) $("tag-filter").value = selected;
+  $("clear").hidden = !db.items.some(x => x.demo);
+  renderList();
+}
+
+function show(title, markup) {
+  $("dialog-title").textContent = title;
+  body.innerHTML = markup;
+  if (!dialog.open) dialog.showModal();
+}
+
+function change(next,message) {
+  const saved = save(next);
+  render();
+  if (saved) toast(message);
+}
+
+function ask(title,message,confirmText,apply) {
+  show(title,`<p>${escape(message)}</p><div class="actions">
+    <button data-close>取消</button><button class="primary" id="confirm">${confirmText}</button></div>`);
+  $("confirm").onclick = () => { dialog.close(); apply(); };
+}
+
+function editor(item) {
+  const data = {...item?.data};
+  show(item ? "编辑语料" : "录入语料",`<form id="entry">
+    <div class="pair"><label>分类<select name="category">${allCategories().map(x => option(x.id,x.name)).join("")}</select></label>
+    <label>掌握状态<select name="state">${Object.entries(states).map(([key,label]) => option(key,label)).join("")}</select></label></div>
+    <div id="fields" class="fields"></div>
+    <fieldset><legend>题型标签</legend><div class="checks">${exams.map(x =>
+      `<label><input type="checkbox" name="exam" value="${x}" ${item?.exams.includes(x) ? "checked" : ""}>${x}</label>`).join("")}</div></fieldset>
+    <label>自定义标签<input name="tags" placeholder="例如：倒装，图画描述" value="${escape(item?.tags.join("，"))}"></label>
+    <div class="actions"><button type="button" data-close>取消</button><button class="primary">保存语料</button></div>
+  </form>`);
+  const form = $("entry");
+  const inputs = form.elements;
+  inputs.category.value = item?.category ?? (category || "fixed");
+  inputs.state.value = item?.state ?? "new";
+  const capture = () => {
+    for (const field of $("fields").querySelectorAll("textarea")) data[field.name] = field.value;
+  };
+  function renderFields() {
+    $("fields").innerHTML = schema(inputs.category.value).map(([key,label]) =>
+      `<label>${label}${key === "text" ? "（必填）" : ""}
+      <textarea name="${key}" rows="${["text","notes"].includes(key) ? 2 : 1}"
+      ${key === "text" ? "required" : ""}
+      ${key === "frame" ? 'placeholder="用 [方括号] 标记可替换部分"' : ""}
+      ${key === "year" ? 'placeholder="例如：2020（仿真材料可留空）"' : ""}>${escape(data[key])}</textarea></label>`).join("");
+  }
+  inputs.category.onchange = () => { capture(); renderFields(); };
+  renderFields();
+  form.onsubmit = event => {
+    event.preventDefault();
+    capture();
+    const values = new FormData(form);
+    const selected = inputs.category.value;
+    if (!data.text.trim()) { inputs.text.value = ""; inputs.text.reportValidity(); return; }
+    if (!allCategories().some(x => x.id === selected)) { dialog.close(); toast("该分类已变更，请重新录入。"); return; }
+    const current = item && db.items.find(x => x.id === item.id);
+    if (item && !current) { dialog.close(); toast("该语料已删除。"); return; }
+    const entry = {
+      id:current?.id ?? id(), category:selected, state:inputs.state.value,
+      exams:values.getAll("exam"), tags:unique(values.get("tags").split(/[,，、；;\n]+/)),
+      reviews:current?.reviews ?? 0, demo:false,
+      data:Object.fromEntries(Object.entries(data).map(([key,value]) => [key,value.trim()]))
+    };
+    const items = item ? db.items.map(x => x.id === item.id ? entry : x) : [entry,...db.items];
+    dialog.close();
+    change({...db,items},"语料已保存");
+  };
+}
+
+function newCategory() {
+  show("新建分类",`<form id="category-form">
+    <label>分类名称<input name="name" required maxlength="40" placeholder="例如：完形固定搭配"></label>
+    <div class="actions"><button type="button" data-close>取消</button><button class="primary">创建分类</button></div>
+  </form>`);
+  const field = $("category-form").elements.namedItem("name");
+  field.oninput = () => field.setCustomValidity("");
+  $("category-form").onsubmit = event => {
+    event.preventDefault();
+    const name = field.value.trim();
+    if (!name || allCategories().some(x => clean(x.name) === clean(name))) {
+      field.setCustomValidity(name ? "此分类已存在" : "请输入分类名称");
+      field.reportValidity();
+      return;
+    }
+    const entry = {id:"custom-"+id(),name};
+    dialog.close();
+    change({...db,categories:[...db.categories,entry]},"分类已创建");
+  };
+}
+
+function startReview() {
+  const queue = filtered().filter(x => x.data.meaning?.trim()).map(x => x.id);
+  if (!queue.length) { toast("当前筛选中没有带释义的语料。"); return; }
+  for (let i = queue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [queue[i],queue[j]] = [queue[j],queue[i]];
+  }
+  flash = {queue,index:0,done:0,mode:"meaning",open:false};
+  renderFlash();
+}
+
+function renderFlash() {
+  let item = db.items.find(x => x.id === flash.queue[flash.index]);
+  while (!item && flash.index < flash.queue.length) {
+    flash.index++;
+    item = db.items.find(x => x.id === flash.queue[flash.index]);
+  }
+  if (!item) {
+    show("本轮复习结束",`<p>已记录 ${flash.done} 次复习。</p>
+      <div class="actions"><button data-close class="primary">返回语料库</button></div>`);
+    body.querySelector("[data-close]").focus();
+    return;
+  }
+  const hideMeaning = flash.mode === "meaning";
+  const front = hideMeaning ? item.data.text : item.data.meaning;
+  const back = hideMeaning ? item.data.meaning : item.data.text;
+  show("闪卡复习",`<div class="pair">
+    <label>遮罩方向<select id="direction">${option("meaning","隐藏中文释义")}${option("text","隐藏英文原句")}</select></label>
+    <p class="muted">第 ${flash.index+1} / ${flash.queue.length} 张<br>当前 · ${states[item.state]}</p></div>
+    <div class="flash-card">
+      <p class="${hideMeaning ? "english" : "meaning"}">${escape(front)}</p>
+      ${flash.open ? `<p class="${hideMeaning ? "meaning" : "english"}">${escape(back)}</p>` :
+      '<button class="primary" id="reveal">显示答案</button>'}
+    </div>
+    <p class="muted">显示答案后选择掌握状态，计入一次复习。</p>
+    <div class="actions"><button id="skip">跳过</button>
+      ${Object.entries(states).map(([key,label]) =>
+        `<button data-rating="${key}" ${flash.open ? "" : "disabled"}>${label}</button>`).join("")}</div>`);
+  $("direction").value = flash.mode;
+  $("direction").onchange = event => {
+    flash.mode = event.target.value;
+    flash.open = false;
+    renderFlash();
+    $("direction").focus();
+  };
+  if ($("reveal")) $("reveal").onclick = () => { flash.open = true; renderFlash(); };
+  $("skip").onclick = advance;
+  for (const button of body.querySelectorAll("[data-rating]")) {
+    button.onclick = () => {
+      if (!db.items.some(x => x.id === item.id)) { advance(); return; }
+      const items = db.items.map(x => x.id === item.id ?
+        {...x,state:button.dataset.rating,reviews:Math.min(x.reviews+1,Number.MAX_SAFE_INTEGER)} : x);
+      save({...db,items});
+      render();
+      flash.done++;
+      advance();
+    };
+  }
+  ($("reveal") ?? body.querySelector('[data-rating="' + item.state + '"]')).focus();
+}
+
+function advance() {
+  flash.index++;
+  flash.open = false;
+  renderFlash();
+}
+
+$("export").onclick = () => {
+  const blob = new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "english-i-corpus-backup.json";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url),10000);
+};
+$("import").onclick = () => $("file").click();
+$("file").onchange = async event => {
+  const file = event.target.files[0];
+  event.target.value = "";
+  if (!file) return;
+  let backup;
+  try { backup = parseBackup(await file.text()); }
+  catch { toast("无法导入。请选择本网页导出的有效 JSON 备份。"); return; }
+  ask("恢复 JSON 备份",
+    `备份包含 ${backup.items.length} 条语料和 ${backup.categories.length} 个自定义分类。恢复会替换当前数据。`,
+    "确认恢复",() => {
+      category = "";
+      $("search").value = $("tag-filter").value = $("state-filter").value = "";
+      change(backup,"备份已恢复");
+    });
+};
+$("clear").onclick = () => ask("清空示例","删除当前带「原创示例」标记的语料及其复习记录？","清空示例",() =>
+  change({...db,items:db.items.filter(x => !x.demo)},"示例已清空"));
+$("add").onclick = () => editor();
+$("review").onclick = startReview;
+$("new-category").onclick = newCategory;
+$("close").onclick = () => dialog.close();
+body.onclick = event => { if (event.target.closest("[data-close]")) dialog.close(); };
+$("search").oninput = renderList;
+$("tag-filter").onchange = $("state-filter").onchange = renderList;
+$("categories").onclick = event => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+  category = button.dataset.category;
+  render();
+  [...$("categories").children].find(x => x.dataset.category === category)?.focus();
+};
+$("list").onclick = event => {
+  const button = event.target.closest("[data-edit],[data-delete]");
+  if (!button) return;
+  const item = db.items.find(x => x.id === (button.dataset.edit ?? button.dataset.delete));
+  if (!item) return;
+  if (button.hasAttribute("data-edit")) editor(item);
+  else ask("删除语料",item.data.text,"确认删除",() =>
+    change({...db,items:db.items.filter(x => x.id !== item.id)},"语料已删除"));
+};
+window.addEventListener("storage",event => {
+  if (event.key !== storageKey || event.newValue === null) return;
+  try { db = parseBackup(event.newValue); render(); }
+  catch { notice("其他标签页写入的数据无法读取。"); }
+});
+
+$("state-filter").innerHTML = option("","全部状态") +
+  Object.entries(states).map(([key,label]) => option(key,label)).join("");
+load();
+render();
+</script>
+</body>
+</html>
